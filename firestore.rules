@@ -1,0 +1,45 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isSignedIn() {
+      return request.auth != null && request.auth.token.email_verified == true;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.email == 'tukukalandi@gmail.com';
+    }
+
+    function isValidRawBookingRow(row) {
+      return row.officeId is string &&
+             row.officeName is string &&
+             row.productName is string &&
+             row.articles is number &&
+             row.totalAmount is number;
+    }
+
+    function isValidInternationalReport(data) {
+      return data.month is string &&
+             data.month.size() <= 100 &&
+             data.data is list &&
+             data.data.size() <= 5000 &&
+             data.updatedAt == request.time;
+    }
+
+    match /international_reports/{reportId} {
+      allow read: if true; // Publicly readable
+      allow create: if isAdmin() && isValidInternationalReport(request.resource.data);
+      allow update: if isAdmin() && isValidInternationalReport(request.resource.data) &&
+                     (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['month', 'data', 'updatedAt']));
+      allow delete: if isAdmin();
+    }
+  }
+}

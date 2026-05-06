@@ -1,0 +1,54 @@
+{
+  "entities": {
+    "InternationalReport": {
+      "title": "International Mail Report",
+      "description": "Report containing international mail booking data for a specific month",
+      "type": "object",
+      "properties": {
+        "month": {
+          "type": "string",
+          "description": "Month name (e.g., April 2026)"
+        },
+        "data": {
+          "type": "array",
+          "description": "List of booking rows",
+          "items": {
+            "$ref": "#/entities/RawBookingRow"
+          }
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update timestamp"
+        }
+      },
+      "required": ["month", "data", "updatedAt"]
+    },
+    "RawBookingRow": {
+      "title": "Raw Booking Row",
+      "description": "A single row of booking data",
+      "type": "object",
+      "properties": {
+        "officeId": { "type": "string" },
+        "officeName": { "type": "string" },
+        "productName": { "type": "string" },
+        "articles": { "type": "number" },
+        "postage": { "type": "number" },
+        "vas": { "type": "number" },
+        "tax": { "type": "number" },
+        "prepaidFm": { "type": "number" },
+        "prepaidPs": { "type": "number" },
+        "prepaidSs": { "type": "number" },
+        "totalAmount": { "type": "number" },
+        "avgWeight": { "type": "number" }
+      },
+      "required": ["officeId", "officeName", "productName", "articles", "totalAmount"]
+    }
+  },
+  "firestore": {
+    "international_reports/{reportId}": {
+      "schema": "InternationalReport",
+      "description": "Collection of monthly international mail reports"
+    }
+  }
+}
