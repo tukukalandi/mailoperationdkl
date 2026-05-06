@@ -22,6 +22,21 @@ const MONTHS = [
   "October 2026", "November 2026", "December 2026", "January 2027", "February 2027", "March 2027"
 ];
 
+const MONTHLY_BOOKING_REPORTS = [
+  { month: "APRIL 2026", url: "https://docs.google.com/spreadsheets/d/15mP3CzQ6M9irA8XTj1I3k2FeIwzpzU6HNxsrUsHwiTA/edit?gid=0#gid=0", bg: "bg-rose-50", border: "border-rose-100", text: "text-rose-700" },
+  { month: "MAY 2026", url: "https://docs.google.com/spreadsheets/d/15mP3CzQ6M9irA8XTj1I3k2FeIwzpzU6HNxsrUsHwiTA/edit?gid=839442657#gid=839442657", bg: "bg-pink-50", border: "border-pink-100", text: "text-pink-700" },
+  { month: "JUNE 2026", url: "https://docs.google.com/spreadsheets/d/15mP3CzQ6M9irA8XTj1I3k2FeIwzpzU6HNxsrUsHwiTA/edit?gid=683054627#gid=683054627", bg: "bg-fuchsia-50", border: "border-fuchsia-100", text: "text-fuchsia-700" },
+  { month: "JULY 2026", url: "https://docs.google.com/spreadsheets/d/15mP3CzQ6M9irA8XTj1I3k2FeIwzpzU6HNxsrUsHwiTA/edit?gid=189565733#gid=189565733", bg: "bg-violet-50", border: "border-violet-100", text: "text-violet-700" },
+  { month: "AUGUST 2026", url: "https://docs.google.com/spreadsheets/d/15mP3CzQ6M9irA8XTj1I3k2FeIwzpzU6HNxsrUsHwiTA/edit?gid=824557769#gid=824557769", bg: "bg-indigo-50", border: "border-indigo-100", text: "text-indigo-700" },
+  { month: "SEPTEMBER 2026", url: "https://docs.google.com/spreadsheets/d/15mP3CzQ6M9irA8XTj1I3k2FeIwzpzU6HNxsrUsHwiTA/edit?gid=1142181835#gid=1142181835", bg: "bg-blue-50", border: "border-blue-100", text: "text-blue-700" },
+  { month: "OCTOBER 2026", url: "https://docs.google.com/spreadsheets/d/15mP3CzQ6M9irA8XTj1I3k2FeIwzpzU6HNxsrUsHwiTA/edit?gid=1432144130#gid=1432144130", bg: "bg-cyan-50", border: "border-cyan-100", text: "text-cyan-700" },
+  { month: "NOVEMBER 2026", url: "https://docs.google.com/spreadsheets/d/15mP3CzQ6M9irA8XTj1I3k2FeIwzpzU6HNxsrUsHwiTA/edit?gid=186709521#gid=186709521", bg: "bg-teal-50", border: "border-teal-100", text: "text-teal-700" },
+  { month: "DECEMBER 2026", url: "https://docs.google.com/spreadsheets/d/15mP3CzQ6M9irA8XTj1I3k2FeIwzpzU6HNxsrUsHwiTA/edit?gid=829868291#gid=829868291", bg: "bg-emerald-50", border: "border-emerald-100", text: "text-emerald-700" },
+  { month: "JANUARY 2027", url: "https://docs.google.com/spreadsheets/d/15mP3CzQ6M9irA8XTj1I3k2FeIwzpzU6HNxsrUsHwiTA/edit?gid=355126831#gid=355126831", bg: "bg-green-50", border: "border-green-100", text: "text-green-700" },
+  { month: "FEBRUARY 2027", url: "https://docs.google.com/spreadsheets/d/15mP3CzQ6M9irA8XTj1I3k2FeIwzpzU6HNxsrUsHwiTA/edit?gid=826964675#gid=826964675", bg: "bg-lime-50", border: "border-lime-100", text: "text-lime-700" },
+  { month: "MARCH 2027", url: "https://docs.google.com/spreadsheets/d/15mP3CzQ6M9irA8XTj1I3k2FeIwzpzU6HNxsrUsHwiTA/edit?gid=753220460#gid=753220460", bg: "bg-amber-50", border: "border-amber-100", text: "text-amber-700" },
+];
+
 /**
  * Converts Google Sheets URLs to direct CSV export URLs.
  */
@@ -510,6 +525,26 @@ function App() {
                           Generate Custom Report
                       </button>
                   </div>
+                </div>
+
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] whitespace-nowrap">Monthly Quick Access</span>
+                  <div className="h-px bg-slate-200 flex-1"></div>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+                  {MONTHLY_BOOKING_REPORTS.map((report) => (
+                    <button
+                      key={report.month}
+                      onClick={() => loadFromUrl(report.url)}
+                      disabled={loading}
+                      className={`group relative overflow-hidden px-4 py-8 rounded-[2rem] border-2 shadow-sm ${report.bg} ${report.border} ${report.text} transition-all hover:scale-[1.02] hover:shadow-md active:scale-95 flex flex-col items-center justify-center text-center`}
+                    >
+                      <span className="text-sm font-black uppercase tracking-[0.2em] group-hover:scale-105 transition-transform">
+                        {report.month}
+                      </span>
+                    </button>
+                  ))}
                 </div>
 
                 <div className="flex items-center gap-4 mb-6">
